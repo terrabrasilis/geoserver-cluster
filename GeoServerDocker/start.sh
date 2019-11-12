@@ -12,8 +12,16 @@ if [ -n "${CUSTOM_GID}" ];then
   find / -group 1099 -exec chgrp -h tomcat {} \;
 fi
 
+# From build command to config the output image as a master or slave
+if [ ! "${BUILD_TYPE}" = "master" ];then
+  echo "Building SLAVE image."
+  cd ${GEOSERVER_INSTALL_DIR}/WEB-INF/lib
+  # remove some libs related with GWC
+  ls ./ |grep -i 'gwc' |xargs rm
+fi
+
 #We need this line to ensure that data has the correct rights
-chown -R tomcat:tomcat ${GEOSERVER_DATA_DIR} 
+chown -R tomcat:tomcat ${GEOSERVER_DATA_DIR}
 chown -R tomcat:tomcat ${GEOSERVER_EXT_DIR}
 
 for ext in `ls -d "${GEOSERVER_EXT_DIR}"/*/`; do

@@ -9,17 +9,19 @@ LABEL author="Andre Carvalho"
 LABEL author.email="andre.carvalho@inpe.br"
 LABEL description="This service provides an instance of GeoServer used to compose the master and slave nodes on cluster."
 
+# Used to configure the output image as MASTER or SLAVE. See: README.md file
+ARG BUILD_TYPE
+ENV BUILD_TYPE ${BUILD_TYPE}
+
 ENV GEOSERVER_VERSION 2.15.3
 ENV GEOSERVER_DATA_DIR /var/local/geoserver
 ENV GEOSERVER_INSTALL_DIR /usr/local/geoserver
 ENV GEOSERVER_EXT_DIR /var/local/geoserver-exts
 
-# Uncomment to use APT cache (requires apt-cacher-ng on host)
-#RUN echo "Acquire::http { Proxy \"http://`/sbin/ip route|awk '/default/ { print $3 }'`:3142\"; };" > /etc/apt/apt.conf.d/71-apt-cacher-ng
-
 # GeoServer
 ADD conf/geoserver.xml /usr/local/tomcat/conf/Catalina/localhost/geoserver.xml
-RUN mkdir ${GEOSERVER_DATA_DIR} \
+RUN rm -rf /usr/local/tomcat/webapps/* \
+    && mkdir ${GEOSERVER_DATA_DIR} \
 	&& mkdir ${GEOSERVER_INSTALL_DIR} \
 	&& cd ${GEOSERVER_INSTALL_DIR} \
 	&& wget http://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}/geoserver-${GEOSERVER_VERSION}-war.zip \
