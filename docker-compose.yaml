@@ -7,7 +7,6 @@ services:
      - 61666
     ports:
      - "61666:61666"
-     - "8099:8080"
     volumes:
      - /data/gs_cluster/gs_datadir:/var/local/geoserver
   master:
