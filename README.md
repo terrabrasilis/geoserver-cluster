@@ -20,8 +20,9 @@ To build a master image your should pass the env var, IS_MASTER, to docker build
 # to build a master image
 docker build --build-arg BUILD_TYPE=master -t terrabrasilis/geoserver-master:v1.0 GeoServerDocker/
 
-# to build a slave image, use the value slave to BUILD_TYPE or nothing
+# to build a slave image, use the value slave to BUILD_TYPE
 docker build --build-arg BUILD_TYPE=slave -t terrabrasilis/geoserver-worker:v1.0 GeoServerDocker/
+# or nothing
 docker build -t terrabrasilis/geoserver-worker:v1.0 GeoServerDocker/
 ```
 
