@@ -17,6 +17,7 @@ services:
     environment:
       COOKIE: JSESSIONID prefix
       CLUSTER_CONFIG_DIR: /var/local/geoserver/cluster/master
+      GEOSERVER_LOG_LOCATION: /var/local/geoserver/cluster/logs/master
       instanceName: master
     ports:
       - "8081:8080"
@@ -29,6 +30,7 @@ services:
     environment:
       COOKIE: JSESSIONID prefix
       CLUSTER_CONFIG_DIR: /var/local/geoserver/cluster/slave1
+      GEOSERVER_LOG_LOCATION: /var/local/geoserver/cluster/logs/slave1
       instanceName: slave1
     ports:
       - "8080"
@@ -41,6 +43,7 @@ services:
     environment:
       COOKIE: JSESSIONID prefix
       CLUSTER_CONFIG_DIR: /var/local/geoserver/cluster/slave2
+      GEOSERVER_LOG_LOCATION: /var/local/geoserver/cluster/logs/slave2
       instanceName: slave2
     ports:
       - "8080"
