@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  broker:
+    image: terrabrasilis/geoserver-broker:v1.0
+    expose:
+     - 61666
+    ports:
+     - "61666:61666"
+    volumes:
+     - /data/gs_cluster/2.15/gs_datadir:/var/local/geoserver
+  master:
+    image: terrabrasilis/geoserver-master:v1.0
+    volumes:
+     - /data/gs_cluster/2.15/gs_datadir:/var/local/geoserver
+     - /data/gs_cluster/2.15/gs_extensions:/var/local/geoserver-exts
+    environment:
+      COOKIE: JSESSIONID prefix
+      CLUSTER_CONFIG_DIR: /var/local/geoserver/cluster/master
+      GEOSERVER_LOG_LOCATION: /var/local/geoserver/cluster/logs/master
+      instanceName: master
+    ports:
+      - "8081:8080"
+  slave1:
+    image: terrabrasilis/geoserver-worker:v1.0
+    hostname: geoserver.slave1
+    volumes:
+     - /data/gs_cluster/2.15/gs_datadir:/var/local/geoserver
+     - /data/gs_cluster/2.15/gs_extensions:/var/local/geoserver-exts
+    environment:
+      COOKIE: JSESSIONID prefix
+      CLUSTER_CONFIG_DIR: /var/local/geoserver/cluster/slave1
+      GEOSERVER_LOG_LOCATION: /var/local/geoserver/cluster/logs/slave1
+      instanceName: slave1
+    ports:
+      - "8082:8080"

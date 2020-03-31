@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  slave1:
+    image: terrabrasilis/geoserver-worker:v1.0.1
+    hostname: geoserver.slave1
+    volumes:
+     - /data/gs_cluster/gs_datadir:/var/local/geoserver
+     - /data/gs_cluster/gs_extensions:/var/local/geoserver-exts
+    environment:
+      COOKIE: JSESSIONID prefix
+      CLUSTER_CONFIG_DIR: /var/local/geoserver/cluster/slave1
+      GEOSERVER_LOG_LOCATION: /var/local/geoserver/cluster/logs/slave1
+      instanceName: slave1
+    ports:
+      - "8081:8080"

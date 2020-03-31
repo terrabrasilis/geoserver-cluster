@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   broker:
-    image: terrabrasilis/geoserver-broker:v1.0
+    image: terrabrasilis/geoserver-broker:v1.0.1
     expose:
      - 61666
     ports:
@@ -10,7 +10,7 @@ services:
     volumes:
      - /data/gs_cluster/gs_datadir:/var/local/geoserver
   master:
-    image: terrabrasilis/geoserver-master:v1.0
+    image: terrabrasilis/geoserver-master:v1.0.1
     volumes:
      - /data/gs_cluster/gs_datadir:/var/local/geoserver
      - /data/gs_cluster/gs_extensions:/var/local/geoserver-exts
@@ -22,7 +22,7 @@ services:
     ports:
       - "8081:8080"
   slave1:
-    image: terrabrasilis/geoserver-worker:v1.0
+    image: terrabrasilis/geoserver-worker:v1.0.1
     hostname: geoserver.slave1
     volumes:
      - /data/gs_cluster/gs_datadir:/var/local/geoserver
@@ -33,9 +33,9 @@ services:
       GEOSERVER_LOG_LOCATION: /var/local/geoserver/cluster/logs/slave1
       instanceName: slave1
     ports:
-      - "8080"
+      - "8082:8080"
   slave2:
-    image: terrabrasilis/geoserver-worker:v1.0
+    image: terrabrasilis/geoserver-worker:v1.0.1
     hostname: geoserver.slave2
     volumes:
      - /data/gs_cluster/gs_datadir:/var/local/geoserver
@@ -46,4 +46,4 @@ services:
       GEOSERVER_LOG_LOCATION: /var/local/geoserver/cluster/logs/slave2
       instanceName: slave2
     ports:
-      - "8080"
+      - "8083:8080"
