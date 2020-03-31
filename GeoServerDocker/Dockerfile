@@ -2,9 +2,14 @@
 # Credits to work of: Oscar Fonts <oscar.fonts@geomati.co>
 FROM tomcat:9-jdk11
 
+ARG VERSION="1.0"
+ARG GS_BASE_VERSION=2.16
+ARG GS_PATCH_VERSION=2
+
 LABEL "br.inpe.dpi"="INPE/DPI-TerraBrasilis"
 LABEL br.inpe.dpi.terrabrasilis="service"
-LABEL version="v1.0"
+LABEL version=${VERSION}
+LABEL geoserver.version=${GS_BASE_VERSION}.${GS_PATCH_VERSION}
 LABEL author="Andre Carvalho"
 LABEL author.email="andre.carvalho@inpe.br"
 LABEL description="This service provides an instance of GeoServer used to compose the master and slave nodes on cluster."
@@ -13,7 +18,7 @@ LABEL description="This service provides an instance of GeoServer used to compos
 ARG BUILD_TYPE
 ENV BUILD_TYPE ${BUILD_TYPE}
 
-ENV GEOSERVER_VERSION 2.15.3
+ENV GEOSERVER_VERSION ${GS_BASE_VERSION}.${GS_PATCH_VERSION}
 ENV GEOSERVER_DATA_DIR /var/local/geoserver
 ENV GEOSERVER_INSTALL_DIR /usr/local/geoserver
 ENV GEOSERVER_EXT_DIR /var/local/geoserver-exts
@@ -24,7 +29,7 @@ RUN rm -rf /usr/local/tomcat/webapps/* \
     && mkdir ${GEOSERVER_DATA_DIR} \
 	&& mkdir ${GEOSERVER_INSTALL_DIR} \
 	&& cd ${GEOSERVER_INSTALL_DIR} \
-	&& wget http://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}/geoserver-${GEOSERVER_VERSION}-war.zip \
+	&& wget "http://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}/geoserver-${GEOSERVER_VERSION}-war.zip" \
 	&& unzip geoserver-${GEOSERVER_VERSION}-war.zip \
 	&& unzip geoserver.war \
 	&& mv data/* ${GEOSERVER_DATA_DIR} \
