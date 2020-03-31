@@ -17,7 +17,7 @@ if [ ! "${BUILD_TYPE}" = "master" ];then
   echo "Building SLAVE image."
   cd ${GEOSERVER_INSTALL_DIR}/WEB-INF/lib
   # remove some libs related with GWC
-  ls ./ |grep -i 'gwc' |xargs rm
+  #ls ./ |grep -i 'gwc' |xargs rm
 fi
 
 #We need this line to ensure that data has the correct rights
