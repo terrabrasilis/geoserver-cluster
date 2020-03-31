@@ -1,29 +1,44 @@
 # GeoServer Cluster
 
-GeoServer docker image based on GeoServer 2.15.x series. It's used to compose the SDI of TerraBrasilis Docker cluster.
+GeoServer docker image based on GeoServer 2.16.x series. It's used to compose the SDI of TerraBrasilis Docker cluster.
 ActiveMQ Broker user to sync catalog between GeoServer instances on cluster.
 
-The base image is official tomcat:9-jre11
+The cluster topology following here is describe on ["Topology 2: 1 Master and 1 Slave instances with shared data directory using a stand-alone broker"](https://geoserver.geo-solutions.it/edu/en/clustering/clustering/active/topologies.html#topology-2-1-master-and-1-slave-instances-with-shared-data-directory-using-a-stand-alone-broker).
+
+![External topology picture](https://geoserver.geo-solutions.it/edu/en/_images/Clustering_external_broker.png?raw=true "Topology representation")
+
+### Docker container
+
+To build the docker images we use as base image the official image tomcat:9-jre11 and the GeoServer WAR file downloaded directly by the building script.
+
+### Building base on script
+
+We improve this version with a script to build all images.
+To define the image version and GeoServer wanted version we have a JSON file called PROJECT_VERSION. So, all you need is change this file and call the script.
+
+```
+./docker-build.sh
+```
 
 ### Building ActiveMQ Broker image
 
 ```
-docker build -t terrabrasilis/geoserver-broker:v1.0 BrokerActiveMQ/
+docker build -t terrabrasilis/geoserver-broker:v1.1 BrokerActiveMQ/
 ```
 
-### Building GeoServer image
+### Building GeoServer images
 
 Are two types of image, master and slave.
 To build a master image your should pass the env var, IS_MASTER, to docker build.
 
 ```
 # to build a master image
-docker build --build-arg BUILD_TYPE=master -t terrabrasilis/geoserver-master:v1.0 GeoServerDocker/
+docker build --build-arg BUILD_TYPE=master -t terrabrasilis/geoserver-master:v1.1 GeoServerDocker/
 
 # to build a slave image, use the value slave to BUILD_TYPE
-docker build --build-arg BUILD_TYPE=slave -t terrabrasilis/geoserver-worker:v1.0 GeoServerDocker/
+docker build --build-arg BUILD_TYPE=slave -t terrabrasilis/geoserver-worker:v1.1 GeoServerDocker/
 # or nothing
-docker build -t terrabrasilis/geoserver-worker:v1.0 GeoServerDocker/
+docker build -t terrabrasilis/geoserver-worker:v1.1 GeoServerDocker/
 ```
 
 ### Prepare the environment
@@ -39,7 +54,7 @@ On first time, we need to create the two directories. On this example we use the
 
 Afterrunning the cluster, some directories are created by ActiveMQ and GeoServer, but we should change a few things. So, stop the containers and go to make this changes.
 
-In the /gs_extensions/ directory, you must put the required extension to provide communication between GeoServer instances. Geoserver-2.15-SNAPSHOT-jms-cluster-plugin.zip is the required plug-in and its contents must be unzipped to a new directory in the /gs_extensions/ directory. Note in this example that there is a directory called activeeclustering and its contents are the ZIP file JARs mentioned above.
+In the /gs_extensions/ directory, you must put the required extension to provide communication between GeoServer instances. Geoserver-2.16-SNAPSHOT-jms-cluster-plugin.zip is the required plug-in and its contents must be unzipped to a new directory in the /gs_extensions/ directory. Note in this example that there is a directory called jmsclusterplugin and its contents are the ZIP file JARs mentioned above.
 
 Therefore, following this example, we can add new extensions to the /gs_extensions/ directory whenever we want to put new extensions in GeoServer. After adding new extensions to this directory, the cluster must be restarted.
 
@@ -90,6 +105,6 @@ When we run the cluster using docker compose on localhost, we gain some instance
 - http://www.fernandoquadro.com.br/html/2019/07/24/clusterizacao-do-geoserver-com-docker-parte-2/
 - https://groldan.github.io/2019_foss4g-ar_taller_geoserver/
 - https://hub.docker.com/r/oscarfonts/geoserver/dockerfile
-- https://build.geoserver.org/geoserver/2.15.x/community-latest/
+- https://build.geoserver.org/geoserver/2.16.x/community-latest/
 - https://hub.docker.com/r/dockercloud/haproxy
 
