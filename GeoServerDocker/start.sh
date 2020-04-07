@@ -20,8 +20,9 @@ if [ ! "${BUILD_TYPE}" = "master" ];then
   #ls ./ |grep -i 'gwc' |xargs rm
 fi
 
-#We need this line to ensure that data has the correct rights
-chown -R tomcat:tomcat ${GEOSERVER_DATA_DIR}
+# We need this line to ensure that data has the correct rights
+# WARNING: This command is executed for a long time if your data is big like my.
+#chown -R tomcat:tomcat ${GEOSERVER_DATA_DIR}
 chown -R tomcat:tomcat ${GEOSERVER_EXT_DIR}
 
 for ext in `ls -d "${GEOSERVER_EXT_DIR}"/*/`; do
