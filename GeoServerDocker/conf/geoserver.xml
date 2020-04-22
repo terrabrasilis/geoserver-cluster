@@ -1,1 +1,10 @@
-<Context path="/geoserver" docBase="/usr/local/geoserver"></Context>
+<Context path="/geoserver" docBase="/usr/local/geoserver">
+  <Valve className="org.apache.catalina.valves.RemoteIpValve"
+    internalProxies="10\.0\.0\.[0-255]"
+    remoteIpHeader="x-forwarded-for"
+    requestAttributesEnabled="true"
+    protocolHeader="x-forwarded-proto" />
+  <Valve className="org.apache.catalina.valves.AccessLogValve" directory="/var/local/geoserver/logs"
+    prefix="tomcat_access_log" suffix=".txt"
+    pattern="%a %h %l %u %t &quot;%r&quot; %s %b" />
+</Context>
