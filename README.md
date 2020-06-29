@@ -98,6 +98,11 @@ To complete the needed changes, use the configuration files provided into the /C
 
 Finally, run the cluster again and test the features.
 
+Important: The first time, the volume used to store the geoserver data files must be changed to provide a correct property, so run this command:
+```sh
+chown -R tomcat:tomcat ${GEOSERVER_DATA_DIR}
+```
+
 ### Running locally
 
 Before you run this docker-compose, you must provide the directories on your server used by the containers to map the GeoServer data directory among others. See the docker-compose file for all required volumes and read the instructions in the "Preparing the environment" section above.
