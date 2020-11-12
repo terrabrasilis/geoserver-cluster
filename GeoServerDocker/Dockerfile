@@ -56,6 +56,7 @@ RUN sed -i '\:</web-app>:i\
 
 # Tomcat environment to set the JVM parameters. (https://manpages.debian.org/testing/openjdk-11-jre-headless/java.1.en.html)
 ENV CATALINA_OPTS "-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server \
+    -XX:OnOutOfMemoryError=kill -9 %p \
 	-Xms1024m -Xmx3072m -Xss1024k -XX:NewSize=768m \
     -XX:+UseParallelGC -XX:MaxGCPauseMillis=500 \
 	-DGEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}"
