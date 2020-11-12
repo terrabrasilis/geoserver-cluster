@@ -1,5 +1,5 @@
 {
-    "version": "1.0.2",
+    "version": "1.0.5",
     "gs_base_version": "2.16",
-    "gs_patch_version": "2"
+    "gs_patch_version": "5"
 }
